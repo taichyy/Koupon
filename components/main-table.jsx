@@ -1,9 +1,20 @@
 "use client"
+import useSWR from "swr";
+import { Search } from "lucide-react";
+
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator";
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Search } from "lucide-react";
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardFooter,
+    CardHeader,
+    CardTitle,
+} from "@/components/ui/card"
+
 
 const MainTable = () => {
 
@@ -33,6 +44,12 @@ const MainTable = () => {
         nameEN : "chicken-roll"
     }]
 
+    const fetcher = (...args) => fetch(...args).then(res => res.json())
+    const { data, error, isLoading } = useSWR('/api/coupons', fetcher)
+    console.log(data)
+
+    const loading = false
+
     return (
     <main>
         <nav className=" px-4 py-3">
@@ -46,6 +63,33 @@ const MainTable = () => {
         <div className="flex w-11/12 mx-auto my-4 max-w-sm items-center gap-1.5">
             <Search size={22} />
             <Input type="email" id="email" placeholder="我想吃......" />
+        </div>
+        <div>
+            {loading ? (
+                <div></div>
+            ) : (
+                data?.map( coupon => (
+                    <Card key={coupon.coupon} className="w-11/12 my-4 mx-auto">
+                        <CardHeader>
+                        <CardTitle>
+                            {coupon.name}
+                        </CardTitle>
+                        <CardDescription>
+                            ~
+                            {coupon.expireDate.slice(0,4)}/
+                            {coupon.expireDate.slice(4,6)}/
+                            {coupon.expireDate.slice(6,8)}
+                        </CardDescription>
+                        </CardHeader>
+                        {/* <CardContent>
+                            <p>Card Content</p>
+                        </CardContent>
+                        <CardFooter>
+                            <p>Card Footer</p>
+                        </CardFooter> */}
+                    </Card>
+                ))
+            )}
         </div>
     </main>       
         

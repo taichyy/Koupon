@@ -14,7 +14,7 @@ export default function Home() {
             />
             <div>
                 <h1 className="text-xl font-semibold">愛吃基魔人</h1>
-                <h2 className="text-xs font-semibold tracking-widest">程式抓取，一手資料</h2>
+                <h2 className="text-xs font-semibold tracking-widest">最完整的優惠券一手資料</h2>
             </div>
         </div>
         <MainTable />

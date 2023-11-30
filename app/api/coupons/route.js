@@ -1,5 +1,4 @@
 import { NextResponse } from "next/server";
-import puppeteer from "puppeteer";
 
 export async function GET() {
     const data = {
@@ -17,9 +16,8 @@ export async function GET() {
             if (res.ok) {
                 
                 let responseText = await res.text();
-                let noCouponStr = "<NewDataSet>\r\n  <tablename>\r\n    <Column1>tablename</Column1>\r\n    <Column2>Coupon</Column2>\r\n    <Column3>Coupon_Product</Column3>\r\n    <Column4>Coupon_SpecificProducts</Column4>\r\n  </tablename>\r\n</NewDataSet>";
                 // If the coupon exists
-                if (responseText != noCouponStr) {
+                if (responseText.includes('<Coupon>')) {
                     // Check if expried
                     let date = new Date()
                     let nowYear = date.getFullYear().toString()
@@ -46,24 +44,12 @@ export async function GET() {
                             "coupon" : i,
                             "name" : name,
                             "productCode" : code,
-                            "exprieDate" : expFull,
+                            "expireDate" : expFull,
                         });
                     }
                     console.log(i)
                     // https://www.kfcclub.com.tw/meal/TA4165
-
-                    // Puppeteer 
-                    const puppeteer = require('puppeteer');
-
-                    (async () => {
-                        // Open new browser and page
-                        const browser = await puppeteer.launch();
-                        const page = await browser.newPage();
-                        await page.goto('https://example.com');
-                        await page.screenshot({path: 'example.png'});
-                        
-                        await browser.close();
-                    })();
+                    // Playwright
                 }
             }
         } catch (err) {
