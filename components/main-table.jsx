@@ -5,7 +5,6 @@ import { Search } from "lucide-react";
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator";
 import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
 import {
     Card,
     CardContent,
@@ -70,10 +69,20 @@ const MainTable = () => {
                 data?.map( coupon => (
                     <Card key={coupon.coupon} className="w-11/12 my-4 mx-auto">
                         <CardHeader>
-                        <CardTitle>
-                            {coupon.name}
+                        <CardTitle className="flex flex-col">
+                            <div>
+                                {coupon.delivery == "true" && (<Badge className="rounded-xl mr-2 text-xs bg-red-500">外送可</Badge>)}
+                                {coupon.takeout == "true" && (<Badge className="rounded-xl mr-2 text-xs bg-red-500">外帶可</Badge>)}
+                            </div>
+                            <div className="flex justify-between mt-2 pl-1">
+                                <span className="space-x-1">
+                                    <span>{coupon.coupon}</span>
+                                    <span>{coupon.name}</span>
+                                </span>
+                                <span>${coupon.price}</span>
+                            </div>
                         </CardTitle>
-                        <CardDescription>
+                        <CardDescription className="pl-1">
                             ~
                             {coupon.expireDate.slice(0,4)}/
                             {coupon.expireDate.slice(4,6)}/

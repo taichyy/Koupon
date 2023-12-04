@@ -1,47 +1,49 @@
+import puppeteer from 'puppeteer';
+
 export const GET = async (req, { params }) => {
 
   const {mealId} = params
 
+  const browser = await puppeteer.launch({
+    headless: "new"
+  });
+  const page = await browser.newPage();
+    
+  // Step 1: 進入網頁
+  // await page.goto('https://www.kfcclub.com.tw/meal/TA4165');
+
+  // Step 2: 點擊加入餐車按鈕
+  // await page.waitForSelector('#btnAddToCart');
+  // await page.click('#btnAddToCart');
+
+  // Step 3: 選擇第一項有value值的option
+  // await page.waitForSelector('#pop-Lct_selTakeOutAddr1');
+  // await page.select('#pop-Lct_selTakeOutAddr1', '基隆市');
+
+  // Step 4: 選擇第一項有value值的option
+  // await page.waitForSelector('#pop-Lct_selTakeOutAddr2');
+  // await page.select('#pop-Lct_selTakeOutAddr2', '仁愛區');
+
+  // Step 5: 模擬點擊第一項div.restaurant
+  // await page.click('#pop-Lct_TakeOutShop .restaurant');
+
+  // Step 6: 螢幕截圖
+  // await page.waitForTimeout(2000);
+  // await page.screenshot({ path: 'screenshot.png' });
+
+  // await browser.close();
+
   try {
     // Define the URL and headers for the fetch request
     const url = `https://www.kfcclub.com.tw/meal/${mealId}`;
-
+    
+    
     // Define the cookies
     const cookies = {
-      'ASP.NET_SessionId': 'a34papdvpdpu5nxphqwznxsa',
-      'GCLB': 'CMXsru-sjdPlFQ',
+      'ASP.NET_SessionId': '1mjvrbway1wmie0mjfawojiv',
+      'GCLB': 'CPudoaLhxtPUdw',
       'OrderTypeCheck': '2',
-      // '_td_cid': '2057881384.1697994116',
-      // '__lt__cid': '10492ac2-11cc-42ff-9d17-d74232c5e33c',
-      // '_atrk_siteuid': 'cSxN1bC35wr11548',
-      // '_gac_UA-31383057-8': '1.1701588807.EAIaIQobChMI49qul-DyggMVztZMAh3vogTgEAAYASAAEgKQgfD_BwE',
-      // 'olo_localize_ver': '2',
-      // 'ab.storage.deviceId.0ffd3aa6-09ff-4668-94bd-417ef196fbc2': '{"g":"77a06221-f0ce-7005-8399-31bd96c59bb0","c":1691564785773,"l":1701587187068}',
-      // '_gcl_au': '1.1.1157591665.1697994124',
-      // 'kfcclub-com-tw-tw__zc_store': '{"cv":null,"start_at_44886":1701524464194,"duration_44886":1800000,"shown_at":1701588813246,"start_at_44887":1701588734923,"duration_44887":1800000}',
-      // 'kfcclub-com-tw-tw__zc': '3.64d33af9fc5ecb00222a1b94.16.0.0.0.',
-      // '8b05426c-29f0-48fa-83a4-538e2a298d0d_OSLogCheck': '1',
-      // '8b05426c-29f0-48fa-83a4-538e2a298d0d_RunGBFirstCheck': '1',
-      // '918522af-e5f7-4a75-8fa1-00ecafdc65c3_OSLogCheck': '1',
-      // '918522af-e5f7-4a75-8fa1-00ecafdc65c3_RunGBFirstCheck': '1',
-      // '_uetsid': '60ad002090fc11ee8533fb857aa7d836',
-      // '_uetvid': '42295250368311eeadc8cfd5f59838d4'
-      // '_gcl_aw': 'GCL.1701588017.EAIaIQobChMI6oicnNryggMVvjh7Bx3ZAQNzEAAYASAAEgLxOvD_BwE',
-      // '_gid': 'GA1.3.1447289115.1701512407',
-      // 'appier_utmz': '{"csr":"(adwords gclid)","timestamp":1701588017,"lcsr":"(adwords gclid)"}',
-      // '8fa50820-763a-4e1d-855d-a301ebb84cb9_OSLogCheck': '1',
-      // '8fa50820-763a-4e1d-855d-a301ebb84cb9_RunGBFirstCheck': '1',
-      // '__lt__sid': '2eea4326-6c365060',
-      // '_atrk_ssid': 'Y_CjX8eGGpGnv7F5ygM0ZH',
-      // '_atrk_sessidx': '37',
-      // 'appier_pv_counteryEztyxxxF2ZbSAk': '21',
-      // 'appier_page_isView_yEztyxxxF2ZbSAk': 'e24a10bbfa3f477653b4071808b52e8c2f8006c58f25e75da3bc1dcb20bf6033',
-      // 'appier_pv_counter04d0bb9d7439237': '16',
-      // 'appier_page_isView_04d0bb9d7439237': 'e24a10bbfa3f477653b4071808b52e8c2f8006c58f25e75da3bc1dcb20bf6033',
-      // '_fbp': 'fb.3.1701587188270.1156926431',
-      // 'kfcclub-com-tw-tw__zc_us': '656c28f4fdae4b00352bd762.0.19.1701587188700',
-    };
-    
+    }
 
     // Convert cookies to a string
     const cookieString = Object.entries(cookies)
@@ -90,9 +92,6 @@ export const GET = async (req, { params }) => {
       result.push(match[1].replace(/<a[^>]*>.*?<\/a>/, '').trim());
     }
 
-    // console.log(htmlContent)
-    // console.log(result)
-
     // Return a response with the HTML content
     return new Response(htmlContent, {
       status: 200,
@@ -106,3 +105,46 @@ export const GET = async (req, { params }) => {
     return { error: error.message };
   }
 };
+
+
+
+// 請幫我使用NextJS puppeteer按照順序完成以下需求：
+
+// 1. 進入https://www.kfcclub.com.tw/meal/TA4180網頁
+
+// 2. 點擊頁面上的<button type="button" class="btn block ShowOrderShop" onclick="MealAddToCart()" id="btnAddToCart"><span>加入餐車</span></button>
+
+// 3. 在頁面上的
+// <select id="pop-Lct_selTakeOutAddr1"><option value="">請選擇</option><option value="基隆市">基隆市</option><option value="台北市">台北市</option><option value="新北市">新北市</option><option value="桃園市">桃園市</option><option value="新竹市">新竹市</option><option value="苗栗縣">苗栗縣</option><option value="新竹縣">新竹縣</option><option value="台中市">台中市</option><option value="彰化縣">彰化縣</option><option value="南投縣">南投縣</option><option value="雲林縣">雲林縣</option><option value="嘉義市">嘉義市</option><option value="嘉義縣">嘉義縣</option><option value="台南市">台南市</option><option value="高雄市">高雄市</option><option value="屏東縣">屏東縣</option><option value="宜蘭縣">宜蘭縣</option><option value="花蓮縣">花蓮縣</option><option value="台東縣">台東縣</option></select>
+
+// 母元素<select id="pop-Lct_selTakeOutAddr1">中，
+// 選擇第一項有value值的選項。
+// 以上方程式碼為例則選擇
+// <option value="基隆市">基隆市</option>
+// （因為這是第一項有value值的option）
+
+
+// 4. 在頁面上的
+// <select id="pop-Lct_selTakeOutAddr2"><option value="">請選擇</option><option value="仁愛區">仁愛區</option></select>
+
+
+// 母元素<select id="pop-Lct_selTakeOutAddr2">中，
+// 選擇第一項有value值的選項。
+// 以上方程式碼為例則選擇
+// <option value="仁愛區">仁愛區</option>
+// （因為這是第一項有value值的option）
+
+
+// 5.在頁面上的
+// <div id="pop-Lct_TakeOutShop" class="panel panel_tab1_store2" style="display: block;"><div name="pop-Lct_ShopButton" class="restaurant" c="TWB537" shop-info="{&quot;ShopCode&quot;:&quot;TWB537&quot;,&quot;Addr1&quot;:&quot;基隆市&quot;,&quot;Addr2&quot;:&quot;仁愛區&quot;}" onclick="L_TakeOutShopClick(this);" md="n"><div class="restaurant_radio"><input type="radio"></div><div class="restaurant_store"><p name="pop-Lct_SB_ShopName">基隆忠二餐廳 (基隆港海洋廣場前)</p><ul><li name="pop-Lct_SB_ShopAddr">基隆市仁愛區忠二路13號</li><li>週一-週五10:00-23:00、 週六-週日09:00-23:00</li></ul></div></div><div name="pop-Lct_ShopButton" class="restaurant" c="TWI086" shop-info="{&quot;ShopCode&quot;:&quot;TWI086&quot;,&quot;Addr1&quot;:&quot;基隆市&quot;,&quot;Addr2&quot;:&quot;仁愛區&quot;}" onclick="L_TakeOutShopClick(this);" md="n"><div class="restaurant_radio"><input type="radio"></div><div class="restaurant_store"><p name="pop-Lct_SB_ShopName">基隆仁一餐廳 (田遼河銀蛇橋前)</p><ul><li name="pop-Lct_SB_ShopAddr">基隆市仁愛區劉銘傳路1號</li><li>週日-週四08:00-23:00、週五-週六08:00-24:00</li><li>早餐供應</li></ul></div></div></div>
+
+// 母元素<div id="pop-Lct_TakeOutShop" class="panel panel_tab1_store2" style="display: block;">
+// 模擬滑鼠點擊(click)第一項div.restaurant的子元素。
+// 以上方程式碼為例則點擊
+// <div name="pop-Lct_ShopButton" class="restaurant" c="TWB537" shop-info="{&quot;ShopCode&quot;:&quot;TWB537&quot;,&quot;Addr1&quot;:&quot;基隆市&quot;,&quot;Addr2&quot;:&quot;仁愛區&quot;}" onclick="L_TakeOutShopClick(this);" md="n"><div class="restaurant_radio"><input type="radio"></div><div class="restaurant_store"><p name="pop-Lct_SB_ShopName">基隆忠二餐廳 (基隆港海洋廣場前)</p><ul><li name="pop-Lct_SB_ShopAddr">基隆市仁愛區忠二路13號</li><li>週一-週五10:00-23:00、 週六-週日09:00-23:00</li></ul></div></div>
+// （因為這是第一項div.restaurant子元素）
+
+
+// 6. 螢幕截圖
+
+// 7. 將截圖存到NextJS專案資料夾根目錄
