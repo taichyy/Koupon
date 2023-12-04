@@ -9,7 +9,7 @@ export async function GET() {
     let responseArr = []
 
     // Coupon range
-    const fromId = 13310
+    const fromId = 13300
     const toId = 13320
 
     for (let coupon = fromId; coupon <= toId; coupon++) {
