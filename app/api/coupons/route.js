@@ -1,7 +1,4 @@
 import { NextResponse } from "next/server";
-import puppeteer from 'puppeteer';
-
-import { meals } from "@/constants";
 
 export async function GET() {
 
@@ -9,10 +6,11 @@ export async function GET() {
     let responseArr = []
 
     // Coupon range
-    const fromId = 13300
-    const toId = 13320
+    const fromId = 20000
+    const toId = 70000
 
     for (let coupon = fromId; coupon <= toId; coupon++) {
+        console.log(coupon)
         try {
             // Try to fetch coupon
             const res = await fetch(`https://www.kfcclub.com.tw/GetCouponData/${coupon}`, {
@@ -102,16 +100,17 @@ export async function GET() {
                             price = matchesPrice[1].toLowerCase();
                         }
          
-
-                        responseArr.push({
-                            coupon,
-                            code,
-                            name,
-                            delivery,
-                            takeout,
-                            price,
-                            expireDate
-                        });
+                        if(delivery == 'true'){
+                            responseArr.push({
+                                coupon,
+                                code,
+                                name,
+                                delivery,
+                                takeout,
+                                price,
+                                expireDate
+                            });
+                        }
                     }
                 }
             }
@@ -123,6 +122,6 @@ export async function GET() {
             });
         }
     }
-
+    console.log(responseArr)
     return NextResponse.json(responseArr);
 }
